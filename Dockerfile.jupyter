@@ -1,0 +1,16 @@
+FROM jupyter/scipy-notebook:2021-11-04
+
+USER root
+RUN apt update && apt install -y locales
+
+RUN export LC_ALL="sv_SE.UTF- 8" && \
+    export LC_CTYPE="sv_SE.UTF-8" && \
+    dpkg-reconfigure locales && \
+    mkdir -p /usr/src/app
+
+ENV JUPYTER_ENABLE_LAB=yes
+
+WORKDIR /home/jovyan
+
+COPY ./requirements.txt requirements.txt
+RUN python3 -m pip install -r requirements.txt
